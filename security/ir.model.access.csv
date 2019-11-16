@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+acr_technical_data,technical.data,model_technical_data,base.group_user,1,1,1,1
+acr_product_template,product.template,model_product_template,base.group_user,1,1,1,1
+acr_product_product,product.product,model_product_product,base.group_user,1,1,1,1
+acr_parameter,parameter.model,model_parameter_model,base.group_user,1,1,1,1

@@ -1,0 +1,44 @@
+<!-- <t t-call="website.layout">
+            <div class="oe_structure">
+                <div class="container">
+                    <br />
+                    <center><h1>Technical Data</h1></center>
+                    <br />
+                    <table>
+                        <t t-foreach="product_tmpl_id" t-as="rec">
+                            <t t-foreach="rec.technical" t-as="order">
+                                <tr>
+                                <td><span t-esc="order.param_id" /></td>
+                                <td><span t-esc="order.cond" /></td>
+                                <td><span t-esc="order.mini" /></td>
+                                <td><span t-esc="order.typ" /></td>
+                                <td><span t-esc="order.maxi" /></td>
+                                <td><span t-esc="order.uom_id" /></td>
+                                </tr>
+                            </t>
+                        </t>
+                    </table>
+                </div>
+            </div>
+        </t> -->
+
+        <tr>
+                                    <td><span>Parameter</span></td>
+                                    <td><span>Condition</span></td>
+                                    <td><span>Minimum</span></td>
+
+         <table>
+                                
+                            <!--t t-foreach="technical_data.product_tmpl_id" t-as="rec"-->
+                                <t t-foreach="product.technical" t-as="order">
+                                    <tr>
+                                    <td><span t-esc="order.param_id" /></td>
+                                    <td><span t-esc="order.cond" /></td>
+                                    <td><span t-esc="order.mini" /></td>
+                                    <td><span t-esc="order.typ" /></td>
+                                    <td><span t-esc="order.maxi" /></td>
+                                    <td><span t-esc="order.uom_id" /></td>
+                                    </tr>
+                                </t>
+                            
+                        </table>
