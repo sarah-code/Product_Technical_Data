@@ -3,128 +3,85 @@
           
     <template inherit_id="website_sale.product" name="Technical Data" id="technical_data_frontend">
         <xpath expr="//div[@id='product_full_description']" position="replace">
-            <div class="oe_structure">
-                <div class="container">
+            <div class="oe_card">
+                <t t-if="len(product.technical) != 0">
+                    <h1>Technical Data</h1> 
+                        <table class="table table-bordered" >
+                        <tr>
+                            <th><span>Property Name</span></th>
+                            <th><span>Property</span></th>
+                            <th><span>Value</span></th>
+                            <th><span>Unit</span></th>
+                        </tr>
+                        <t t-foreach="product.technical" t-as="tech">
+                            <tr>
+                                <td><span t-field="tech.para_id"/></td>
+                                <td><span t-field="tech.prop"/></td>
+                                <td><span t-field="tech.value"/></td>
+                                <td><span t-field="tech.uom_id"/></td>
+                                <td><span t-field="tech.product_id"/></td>
+                            </tr>
+                        </t>
+                        
 
-                    <div class="col-lg-40 offset-lg-40 pt0 pb0"> <!--Size and margin of the element-->
-                        <div class="card bg-white"><!--render content as card and with white background-->
-                            <div class="card-header"><!--define card header for tabs-->
-                                <ul  class="nav nav-tabs card-header-tabs" role="tablist"><!--render links to anchor points as tabs. basically this is a link list (ul/li) with links to anchorpoints, like a wikipedia article, like this one https://de.wikipedia.org/wiki/Extensible_Markup_Language-->
-
-                                    <li class="nav-item"> <!--removes grey line when selected--><!--Link to tab Description-->
-                                        <a class="nav-link active" id="tab_link_description" data-toggle="tab" href="#tab_content_description">Description</a>
-                                    </li>
-                                    <!--check if product.technical has content, if not, tab won't be shown in list-->
-                                    <t t-if="len(product.technical) != 0">
-                                        <li class="nav-item"><!--Link to tab Technical Data-->
-                                            <a class="nav-link" id="tab_link_technical_data" data-toggle="tab" href="#tab_content_technical_data">Technical Data</a>
-                                        </li>
-                                    </t>                                  
-
-                                    <li class="nav-item"> <!--class="nav-item" Link to tab Downloads-->
-                                        <a class="nav-link" id="tab_link_downloads" data-toggle="tab" href="#tab_content_downloads">Downloads</a>
-                                    </li>
-
-                                    <t t-if="len(product.alternative_product_ids) !=  0">
-                                        <li class="nav-item"><!-- Link to tab Similar Products-->
-                                            <a class="nav-link" id="tab_link_alternative_products" data-toggle="tab" href="#tab_content_alternative_products">Alternative Products</a>
-                                        </li>
-                                    </t>                                                                      
-
-                                     
-                                    <t t-if="len(product.accessory_product_ids) != 0">
-                                        <li class="nav-item"><!--Link to tab Accessories-->
-                                            <a class="nav-link" id="tab_link_accessories" data-toggle="tab" href="#tab_content_accessories">Accessories</a>
-                                        </li>
-                                    </t>
-
-                                </ul>
-                            </div>
-
-                            <div class="card-body tab-content"><!--"anchor points"-->
-                                <div class="tab-pane  active" id="tab_content_description"><!--Description-->
-                                   <div itemprop="description" t-field="product.website_description" class="oe_structure mt16" id="product_full_description" />
+                        </table>
+                <hr />  
+                </t>
+                
+                <h1>Product Description</h1>
+                    <div itemprop="description" t-field="product.website_description" class="oe_structure mt16" id="product_full_description" />
+                
+                
+                <t t-if="len(product.alternative_product_ids) !=  0">
+                <hr />
+                    <h1>Alternative Products</h1>
+                        <t t-foreach="product.alternative_product_ids" t-as="alt_product"><!--getting information about alterative product ids m2n-->                                                        
+                            <div class="o_carousel_product_card_wrap col-md-3" ><!--styling the output's borders-->
+                                <div class="mt16 text-left o_carousel_product_card card h-100">                                          
+                                    <a t-att-href="alt_product.website_url" class="o_carousel_product_img_link" ><!--generate link towards product's URL-->
+                                        <div t-if="alt_product" t-field="alt_product.image_512" t-options="{'widget': 'image', 'qweb_img_responsive': False, 'class': 'o_carousel_product_card_img_top card-img-top' }" />                                                                                               
+                                    <h6><div class="card-body border-top">                                                
+                                        <span t-att-title="alt_product.name" t-field="alt_product.name" class="o_text_overflow" style="display: block;" />
+                                        </div>                                              
+                                    </h6>
+                                    </a> 
+                                    <div class="card-footer d-flex align-items-center">
+                                            <span class="oe_currency_value d-block font-weight-bold" t-field="alt_product.lst_price"/>  
+                                            &#160;
+                                            <a class="d-block font-weight-bold" t-field="alt_product.currency_id.symbol" />
+                                    </div>                                       
                                 </div>
-                                <t t-if="len(product.technical) != 0">
-                                    <div class="tab-pane" id="tab_content_technical_data"><!--Technical Data-->
-                                        <table class="table table-bordered" >
-                                        <tr>
-                                            <th><span>Property Name</span></th>
-                                            <th><span>Property</span></th>
-                                            <th><span>Value</span></th>
-                                            <th><span>Unit</span></th>
-                                        </tr>
-                                        <t t-foreach="product.technical" t-as="tech">
-                                            <tr>
-                                                <td><span t-field="tech.para_id"/></td>
-                                                <td><span t-field="tech.prop"/></td>
-                                                <td><span t-field="tech.value"/></td>
-                                                <td><span t-field="tech.uom_id"/></td>
-                                                <td><span t-field="tech.product_id"/></td>
-                                                <td><span t-field="tech.product_tmpl_id"/></td>
-                                            </tr>
-                                        </t>
-                                       
-
-                                        </table>
-                                    </div>
-                                </t>
-
-                                <div class="tab-pane" id="tab_content_downloads"><!--Downloads-->
-                                    <p>Work in Progress</p>
-                                </div>
-
-                                <t t-if="len(product.alternative_product_ids) !=  0">
-                                    <div class="tab-pane" id="tab_content_alternative_products" role="tabpanel"><!--Similar Products-->
-                                        <t t-foreach="product.alternative_product_ids" t-as="alt_product"><!--getting information about alterative product ids m2n-->                                                        
-                                            <div class="o_carousel_product_card_wrap col-md-3" ><!--styling the output's borders-->
-                                                <div class="mt16 text-left o_carousel_product_card card h-100">                                          
-                                                    <a t-att-href="alt_product.website_url" class="o_carousel_product_img_link" ><!--generate link towards product's URL-->
-                                                        <div t-if="alt_product" t-field="alt_product.image_512" t-options="{'widget': 'image', 'qweb_img_responsive': False, 'class': 'o_carousel_product_card_img_top card-img-top' }" />                                                                                               
-                                                    <h6><div class="card-body border-top">                                                
-                                                        <span t-att-title="alt_product.name" t-field="alt_product.name" class="o_text_overflow" style="display: block;" />
-                                                        </div>                                              
-                                                    </h6>
-                                                    </a> 
-                                                    <div class="card-footer d-flex align-items-center">
-                                                            <span class="oe_currency_value d-block font-weight-bold" t-field="alt_product.lst_price"/>  
-                                                            &#160;
-                                                            <a class="d-block font-weight-bold" t-field="alt_product.currency_id.symbol" />
-                                                    </div>                                       
-                                                </div>
-                                            </div>
-                                        </t>
-                                    </div>
-                                </t>
-
-                                <t t-if="len(product.accessory_product_ids) != 0">
-                                    <div class="tab-pane" id="tab_content_accessories" ><!--Accessories-->
-                                        
-                                        <t t-foreach="product.accessory_product_ids" t-as="accessory_product"><!--getting information about accessory product ids m2n-->
-                                            <div class="o_carousel_product_card_wrap col-md-3" ><!--styling the output's borders-->
-                                                <div class="mt16 text-left o_carousel_product_card card h-100">                                          
-                                                    <a t-att-href="accessory_product.website_url" class="o_carousel_product_img_link" ><!--generate link towards product's URL-->
-                                                        <div t-if="accessory_product" t-field="accessory_product.image_512" t-options="{'widget': 'image', 'qweb_img_responsive': False, 'class': 'o_carousel_product_card_img_top card-img-top' }" />                                                                                               
-                                                    <h6><div class="card-body border-top">                                                
-                                                        <span t-att-title="accessory_product.name" t-field="accessory_product.name" class="o_text_overflow" style="display: block;" />
-                                                        </div>                                              
-                                                    </h6>
-                                                    </a> 
-                                                    <div class="card-footer d-flex align-items-center">
-                                                            <span class="oe_currency_value d-block font-weight-bold" t-field="accessory_product.lst_price"/>  
-                                                            &#160;
-                                                            <a class="d-block font-weight-bold" t-field="accessory_product.currency_id.symbol" />
-                                                    </div>                                       
-                                                </div>
-                                            </div>
-                                        </t>
-                                    </div>
-                                </t>
                             </div>
-                        </div>
-                    </div>                                                           
-                </div>
-            </div>
+                        </t>
+                    
+                </t>
+                
+                <t t-if="len(product.accessory_product_ids) != 0">
+                    <hr />
+                        <h1>Accessories to the product</h1>
+                        <t t-foreach="product.accessory_product_ids" t-as="accessory_product"><!--getting information about accessory product ids m2n-->
+                            <div class="o_carousel_product_card_wrap col-md-3" ><!--styling the output's borders-->
+                                <div class="mt16 text-left o_carousel_product_card card h-100">                                          
+                                    <a t-att-href="accessory_product.website_url" class="o_carousel_product_img_link" ><!--generate link towards product's URL-->
+                                        <div t-if="accessory_product" t-field="accessory_product.image_512" t-options="{'widget': 'image', 'qweb_img_responsive': False, 'class': 'o_carousel_product_card_img_top card-img-top' }" />                                                                                               
+                                    <h6><div class="card-body border-top">                                                
+                                        <span t-att-title="accessory_product.name" t-field="accessory_product.name" class="o_text_overflow" style="display: block;" />
+                                        </div>                                              
+                                    </h6>
+                                    </a> 
+                                    <div class="card-footer d-flex align-items-center">
+                                            <span class="oe_currency_value d-block font-weight-bold" t-field="accessory_product.lst_price"/>  
+                                            &#160;
+                                            <a class="d-block font-weight-bold" t-field="accessory_product.currency_id.symbol" />
+                                    </div>                                       
+                                </div>
+                            </div>
+                        </t>
+                    
+                </t>
+            <hr />
+        </div>
+                        
         </xpath>
         
     </template>
