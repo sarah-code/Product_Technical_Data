@@ -1,90 +1,76 @@
-<odoo> 
-
-          
+<odoo>         
     <template inherit_id="website_sale.product" name="Technical Data" id="technical_data_frontend">
         <xpath expr="//div[@id='product_full_description']" position="replace">
-            <div class="oe_card">
+            <div class="col-8 container">
                 <t t-if="len(product.technical) != 0">
-                    <h1>Technical Data</h1> 
-                        <table class="table table-bordered" >
+                <h3>Technical Data</h3> 
+                    <table class="table table-bordered" >
+                    <tr>
+                        <th><span>Property Name</span></th>
+                        <th><span>Property</span></th>
+                        <th><span>Value</span></th>
+                        <th><span>Unit</span></th>
+                    </tr>
+                    <t t-foreach="product.technical" t-as="tech">
                         <tr>
-                            <th><span>Property Name</span></th>
-                            <th><span>Property</span></th>
-                            <th><span>Value</span></th>
-                            <th><span>Unit</span></th>
+                            <td><span t-field="tech.para_id"/></td>
+                            <td><span t-field="tech.prop"/></td>
+                            <td><span t-field="tech.value"/></td>
+                            <td><span t-field="tech.uom_id"/></td>
+                            <td><span t-field="tech.product_id"/></td>
                         </tr>
-                        <t t-foreach="product.technical" t-as="tech">
-                            <tr>
-                                <td><span t-field="tech.para_id"/></td>
-                                <td><span t-field="tech.prop"/></td>
-                                <td><span t-field="tech.value"/></td>
-                                <td><span t-field="tech.uom_id"/></td>
-                                <td><span t-field="tech.product_id"/></td>
-                            </tr>
-                        </t>
-                        
-
-                        </table>
+                    </t>                    
+                    </table>
                 <hr />  
-                </t>
-                
-                <h1>Product Description</h1>
-                    <div itemprop="description" t-field="product.website_description" class="oe_structure mt16" id="product_full_description" />
-                
-                
+                </t>                
+                <h3>Product Description</h3>
+                    <div itemprop="description" t-field="product.website_description" class="oe_structure mt16" id="product_full_description" />                                
                 <t t-if="len(product.alternative_product_ids) !=  0">
                 <hr />
-                    <h1>Alternative Products</h1>
-                        <t t-foreach="product.alternative_product_ids" t-as="alt_product"><!--getting information about alterative product ids m2n-->                                                        
-                            <div class="o_carousel_product_card_wrap col-md-3" ><!--styling the output's borders-->
-                                <div class="mt16 text-left o_carousel_product_card card h-100">                                          
-                                    <a t-att-href="alt_product.website_url" class="o_carousel_product_img_link" ><!--generate link towards product's URL-->
-                                        <div t-if="alt_product" t-field="alt_product.image_512" t-options="{'widget': 'image', 'qweb_img_responsive': False, 'class': 'o_carousel_product_card_img_top card-img-top' }" />                                                                                               
-                                    <h6><div class="card-body border-top">                                                
-                                        <span t-att-title="alt_product.name" t-field="alt_product.name" class="o_text_overflow" style="display: block;" />
-                                        </div>                                              
-                                    </h6>
-                                    </a> 
-                                    <div class="card-footer d-flex align-items-center">
-                                            <span class="oe_currency_value d-block font-weight-bold" t-field="alt_product.lst_price"/>  
-                                            &#160;
-                                            <a class="d-block font-weight-bold" t-field="alt_product.currency_id.symbol" />
-                                    </div>                                       
-                                </div>
+                    <h3>Alternative Products</h3>
+                    <t t-foreach="product.alternative_product_ids" t-as="alt_product"><!--getting information about alterative product ids m2n-->                                                        
+                        <div class="o_carousel_product_card_wrap col-md-3" ><!--styling the output's borders-->
+                            <div class="mt16 text-left o_carousel_product_card card h-100">                                          
+                                <a t-att-href="alt_product.website_url" class="o_carousel_product_img_link" ><!--generate link towards product's URL-->
+                                    <div t-if="alt_product" t-field="alt_product.image_512" t-options="{'widget': 'image', 'qweb_img_responsive': False, 'class': 'o_carousel_product_card_img_top card-img-top' }" />                                                                                               
+                                <h6><div class="card-body border-top">                                                
+                                    <span t-att-title="alt_product.name" t-field="alt_product.name" class="o_text_overflow" style="display: block;" />
+                                    </div>                                              
+                                </h6>
+                                </a> 
+                                <div class="card-footer d-flex align-items-center">
+                                        <span class="oe_currency_value d-block font-weight-bold" t-field="alt_product.lst_price"/>  
+                                        &#160;
+                                        <a class="d-block font-weight-bold" t-field="alt_product.currency_id.symbol" />
+                                </div>                                       
                             </div>
-                        </t>
-                    
-                </t>
-                
+                        </div>
+                    </t>                    
+                </t>                
                 <t t-if="len(product.accessory_product_ids) != 0">
                     <hr />
-                        <h1>Accessories to the product</h1>
-                        <t t-foreach="product.accessory_product_ids" t-as="accessory_product"><!--getting information about accessory product ids m2n-->
-                            <div class="o_carousel_product_card_wrap col-md-3" ><!--styling the output's borders-->
-                                <div class="mt16 text-left o_carousel_product_card card h-100">                                          
-                                    <a t-att-href="accessory_product.website_url" class="o_carousel_product_img_link" ><!--generate link towards product's URL-->
-                                        <div t-if="accessory_product" t-field="accessory_product.image_512" t-options="{'widget': 'image', 'qweb_img_responsive': False, 'class': 'o_carousel_product_card_img_top card-img-top' }" />                                                                                               
-                                    <h6><div class="card-body border-top">                                                
-                                        <span t-att-title="accessory_product.name" t-field="accessory_product.name" class="o_text_overflow" style="display: block;" />
-                                        </div>                                              
-                                    </h6>
-                                    </a> 
-                                    <div class="card-footer d-flex align-items-center">
-                                            <span class="oe_currency_value d-block font-weight-bold" t-field="accessory_product.lst_price"/>  
-                                            &#160;
-                                            <a class="d-block font-weight-bold" t-field="accessory_product.currency_id.symbol" />
-                                    </div>                                       
-                                </div>
+                    <h3>Accessories to the product</h3>
+                    <t t-foreach="product.accessory_product_ids" t-as="accessory_product"><!--getting information about accessory product ids m2n-->
+                        <div class="o_carousel_product_card_wrap col-md-3" ><!--styling the output's borders-->
+                            <div class="mt16 text-left o_carousel_product_card card h-100">                                          
+                                <a t-att-href="accessory_product.website_url" class="o_carousel_product_img_link" ><!--generate link towards product's URL-->
+                                    <div t-if="accessory_product" t-field="accessory_product.image_512" t-options="{'widget': 'image', 'qweb_img_responsive': False, 'class': 'o_carousel_product_card_img_top card-img-top' }" />                                                                                               
+                                <h6><div class="card-body border-top">                                                
+                                    <span t-att-title="accessory_product.name" t-field="accessory_product.name" class="o_text_overflow" style="display: block;" />
+                                    </div>                                              
+                                </h6>
+                                </a> 
+                                <div class="card-footer d-flex align-items-center">
+                                        <span class="oe_currency_value d-block font-weight-bold" t-field="accessory_product.lst_price"/>  
+                                        &#160;
+                                        <a class="d-block font-weight-bold" t-field="accessory_product.currency_id.symbol" />
+                                </div>                                       
                             </div>
-                        </t>
-                    
-                </t>
+                        </div>
+                    </t>                    
+               </t>
             <hr />
-        </div>
-                        
-        </xpath>
-        
-    </template>
-
-   
+        </div>                        
+        </xpath>        
+    </template>   
 </odoo>
