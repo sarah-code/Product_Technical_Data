@@ -4,41 +4,41 @@ from odoo.exceptions import ValidationError
 class TechnicalData(models.Model):
     _name="technical.data"
     _description="Displays technical data for products"
-    _order = "para_id"
+    _order = "component_name"
     
    
     
     product_tmpl_id =fields.Many2one(comodel_name="product.template" , readonly=False, ondelete="cascade")
     product_id = fields.Many2one(string="Product variant", comodel_name="product.product", ondelete="cascade")
     
-    para_id = fields.Many2one(comodel_name="parameter.model", string="Parameter", required=True)
-    prop = fields.Char(string="Property")
+    component_name = fields.Many2one(comodel_name="parameter.model", string="Component", required=True)
+    component_type = fields.Char(string="Component Type")
     value = fields.Char(string="Value")
     uom_id = fields.Many2one(comodel_name="uom.uom", string="Unit")
     category_id = fields.Many2one(comodel_name="uom.category", string="UOM Category")
     product_id_prop = fields.Boolean(string="Property of Variant")
 
     
-    @api.constrains('prop','value')
+    @api.constrains('component_type','value')
     def _empty_exception(self):
         for rec in self:
-            if rec.prop == False and rec.value==False:
+            if rec.component_type == False and rec.value==False:
                 raise ValidationError('Please put data into Property and Value')
 
     @api.onchange('uom_id')
     def _change_uom_category(self):
-        self.category_id = self.para_id.uom_category_id
+        self.category_id = self.component_name.uom_category_id
 
-    @api.onchange('para_id')
+    @api.onchange('component_name')
     def _change_param_category(self):
-        self.category_id = self.para_id.uom_category_id
+        self.category_id = self.component_name.uom_category_id
     
 
-    @api.onchange('para_id')
-    def _onchange_para_id(self):
+    @api.onchange('component_name')
+    def _onchange_component_name(self):
         res = {}
-        if self.para_id:
-            res['domain'] = {'uom_id': [('category_id', '=', self.para_id.uom_category_id.id)]}
+        if self.component_name:
+            res['domain'] = {'uom_id': [('category_id', '=', self.component_name.uom_category_id.id)]}
         self.uom_id = False
         return res
     
@@ -51,14 +51,14 @@ class TechnicalData(models.Model):
             vals['product_tmpl_id']=product_tmpl.id
 
             existing_product_property = self.env['technical.data'].search([
-                ('para_id', '=', vals.get('para_id')),
+                ('component_name', '=', vals.get('component_name')),
                 ('product_tmpl_id', '=', product_tmpl.id)
             ], limit=1)
 
             if existing_product_property:
                 new_record_draft = {
-                            'para_id' : existing_product_property.para_id.id,
-                            'prop' : existing_product_property.cond,
+                            'component_name' : existing_product_property.component_name.id,
+                            'component_type' : existing_product_property.cond,
                             'value' : existing_product_property.mini,
                             'uom_id': existing_product_property.uom_id.id,
                             'product_tmpl_id' : product_tmpl.id,

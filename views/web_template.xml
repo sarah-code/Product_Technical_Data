@@ -6,15 +6,15 @@
                 <h3>Technical Data</h3> 
                     <table class="table table-bordered" >
                     <tr>
-                        <th><span>Property Name</span></th>
-                        <th><span>Property</span></th>
+                        <th><span>Component</span></th>
+                        <th><span>Component Type</span></th>
                         <th><span>Value</span></th>
                         <th><span>Unit</span></th>
                     </tr>
                     <t t-foreach="product.technical" t-as="tech">
                         <tr>
-                            <td><span t-field="tech.para_id"/></td>
-                            <td><span t-field="tech.prop"/></td>
+                            <td><span t-field="tech.component_name"/></td>
+                            <td><span t-field="tech.component_type"/></td>
                             <td><span t-field="tech.value"/></td>
                             <td><span t-field="tech.uom_id"/></td>
                             <td><span t-field="tech.product_id"/></td>
