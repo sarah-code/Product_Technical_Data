@@ -10,8 +10,8 @@
                     <h1>Technical Data Sheet</h1>                          
                     <field name="technical" context="{'default_product_id_prop' : False}" domain="['|',('product_id','=',product_variant_id.ids),('product_tmpl_id','in',product_variant_id.product_tmpl_id.ids)]">
                         <tree editable="bottom">
-                            <field name="para_id" />
-                            <field name="prop" />
+                            <field name="component_name" />
+                            <field name="component_type" />
                             <field name="value" />
                             <field name="category_id" invisible="1"/>
                             <field name="uom_id" context="{'default_category_id':category_id}" />
